@@ -1,0 +1,24 @@
+# ignore everything
+*
+
+# whitelist
+!/.gitignore
+!/*.c
+!/Makefile
+!/author
+
+# Don't forget to remove this
+!/idea.txt
+!/tetriminos.txt
+!/validation.txt
+
+# whitelist subdirectories
+!*/
+
+# whitelist specific files in libft
+!/libft/*.c
+!/libft/Makefile
+!/libft/includes/libft.h
+
+# whitelist specific files in project's folder
+!/includes/*.h
