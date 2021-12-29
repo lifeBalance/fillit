@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/28 23:28:33 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/29 13:08:00 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,41 @@ void	solve(t_list *tmino_lst, size_t *size)
 {
 	uint16_t	bitmap[16];
 	int			ret; // use return values to check WTF is going on
+	int			bmap_idx; // 0-255
+	int			bmap_row; // 0-15
 
 	ft_bzero(bitmap, sizeof(uint16_t) * 16);
 	*size = init_size(tmino_lst);
 	printf("Initial size: %zu (tmino count: %zu)\n", *size, ft_lstcount(tmino_lst));
 	while (tmino_lst)
 	{
-		ret = try_tmino(((t_tmino *)(tmino_lst->content)), ((t_tmino *)(tmino_lst->content))->row,
-		((t_tmino *)(tmino_lst->content))->col, bitmap, *size);
-		printf("ret: %d\n", ret);
-		while (ret < 1)
+		// iterate over the bitmap bits using a unique index
+		// that same index is used to set row/col in the tetrimino
+		bmap_idx = 0;
+		bmap_row = 0;
+		while (bmap_idx < WIDTH_UINT16)
 		{
+			if ((bmap_idx / 5) == 3)
+				bmap_row++;
+			((t_tmino *)(tmino_lst->content))->col = bmap_idx % 15;
+			((t_tmino *)(tmino_lst->content))->row = bmap_row;
 			ret = try_tmino(((t_tmino *)(tmino_lst->content)), ((t_tmino *)(tmino_lst->content))->row,
 			((t_tmino *)(tmino_lst->content))->col, bitmap, *size);
-			
-			if (ret == -1)
-				((t_tmino *)(tmino_lst->content))->col++;
-			// ((t_tmino *)(tmino_lst->content))->row++;
-			// if (ret == 0)
-			// 	(*size)++;
+			printf("ret: %d\n", ret);
+			if (ret == 1)
+				break ;
+			bmap_idx++;
+		}
+		if (bmap_idx == WIDTH_UINT16)
+		{
+			(*size)++;
+			continue ;
 		}
 		place_tmino(((t_tmino *)(tmino_lst->content)), bitmap);
 		tmino_lst = tmino_lst->next;
 	}
 	// Recalculate the size after placing the pieces on the bitmap.
-	*size = calculate_size(bitmap);
+	// *size = calculate_size(bitmap);
 	printf("New size: %zu\n", *size);
 }
 
