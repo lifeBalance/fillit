@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/29 13:37:56 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/29 18:04:21 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,30 @@ static int		try_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
 void	solve(t_list *tmino_lst, size_t *size)
 {
 	uint16_t	bitmap[16];
-	int			bmap_idx; // 0-255
-	int			bmap_row; // 0-15
+	size_t		bmap_idx;
 
 	ft_bzero(bitmap, sizeof(uint16_t) * 16);
 	*size = init_size(tmino_lst);
 	printf("Initial size: %zu (tmino count: %zu)\n", *size, ft_lstcount(tmino_lst));
 	while (tmino_lst)
 	{
-		// iterate over the bitmap bits using a unique index
-		// that same index is used to set row/col in the tetrimino
 		bmap_idx = 0;
-		bmap_row = 0;
-		while (bmap_idx < WIDTH_UINT16)
+		printf("col: %hhu\n", ((t_tmino *)(tmino_lst->content))->col);
+		printf("size * row: %zu\n", *size * ((t_tmino *)(tmino_lst->content))->row);
+		printf("bitmap_idx: %zu\n", bmap_idx);
+		while (bmap_idx < ((*size) * (*size)))
 		{
-			if ((bmap_idx / 5) == 3)
-				bmap_row++;
-			((t_tmino *)(tmino_lst->content))->col = bmap_idx % 15;
-			((t_tmino *)(tmino_lst->content))->row = bmap_row;
 			if (try_tmino(((t_tmino *)(tmino_lst->content)), bitmap, *size))
 				break ;
 			bmap_idx++;
+			((t_tmino *)(tmino_lst->content))->col = bmap_idx % (*size);
+			((t_tmino *)(tmino_lst->content))->row = bmap_idx / (*size);
+			printf("tmino row: %zu, col: %zu\n", bmap_idx / (*size), bmap_idx % (*size));
 		}
-		if (bmap_idx == WIDTH_UINT16)
+		// if the bmap_idx equals the square of the size, means we tried the
+		// piece in all the locations but it couldn't be placed, so we should
+		// BACKTRACK to the piece before and increase its bmap_idx
+		if (bmap_idx == *size * *size)
 		{
 			(*size)++;
 			continue ;
@@ -84,23 +85,18 @@ static int	try_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size)
 	uint16_t	tmino_bit;
 	uint16_t	bmap_bit;
 	size_t		tmino_idx;
-	size_t		bmap_row;
 
 	tmino_idx = 0;
-	bmap_row = tmino->row;
 	while (tmino_idx < WIDTH_UINT16)
 	{
 		tmino_bit = test_bit_pos(tmino->bits, tmino_idx);
-		bmap_bit = test_bit_pos(bitmap[bmap_row], tmino->col + (tmino_idx % 4));
+		bmap_bit = test_bit_pos(bitmap[tmino_idx / WIDTH_NIBBLE],
+			tmino->col + (tmino_idx % WIDTH_NIBBLE));
 		if (tmino_bit && bmap_bit)
 			return (0);
-		if ((tmino_idx % 4) == 3)
-			bmap_row++;
 		tmino_idx++;
 	}
-	if (tmino->col + tmino->width > size)
-		return (0);
-	if (tmino->row + tmino->height > size)
+	if (tmino->col + tmino->width > size || tmino->row + tmino->height > size)
 		return (0);
 	return (1);
 }
