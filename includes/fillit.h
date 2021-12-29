@@ -6,16 +6,16 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:50:56 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/23 13:24:14 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/28 19:03:42 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
+# define FILLIT_H
 
 /*
 **	Allowed Headers.
 */
-# define FILLIT_H
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -27,46 +27,49 @@
 */
 typedef struct s_tmino
 {
-	uint8_t		col;
-	uint8_t		row;
 	uint16_t	bits;
 	char		label;
+	uint8_t		col;
+	uint8_t		row;
+	uint8_t		width;
+	uint8_t		height;
 }	t_tmino;
-
 
 /*
 **	Macro definitions.
 */
-# define TMINO_LEN		21
-# define WIDTH_UINT64	64
-# define WIDTH_UINT16	16
-# define WIDTH_NIBBLE	4
-# define FIRST_ROW		61440	/* 1111 0000 0000 0000 */
-# define FIRST_COL		34952	/* 1000 1000 1000 1000 */
-# define TMINO			((t_tmino *)(tmino_lst->content))
+# define TMINO_LEN			21
+# define WIDTH_UINT64		64
+# define WIDTH_UINT16		16
+# define WIDTH_NIBBLE		4
+# define TMINO_FIRST_ROW	0xF		/* LSB 1111 0000 0000 0000 MSB */
+# define TMINO_FIRST_COL	0x111	/* LSB 1000 1000 1000 1000 MSB */
+# define TMINO_LAST_ROW		0xF000	/* LSB 0000 0000 0000 1111 MSB */
+# define TMINO_LAST_COL		0x8888	/* LSB 0001 0001 0001 0001 MSB */
+# define BITMAP_ROW			0xFFFF	/* LSB 1111 1111 1111 1111 MSB */
 
 /*
 **	Function prototypes.
 */
 void		ft_checkargc(int argc);
 void		ft_readtminos(char *fname, t_list **tmino_lst);
-t_tmino		ft_buildtmino(char *buf);
-uint16_t	ft_bits(char *buf);
-uint16_t	set_bit(uint8_t pos, uint16_t val);
-uint8_t		test_bit(uint8_t pos, uint16_t val);
-uint8_t		test_first_row(uint16_t value);
-uint8_t		test_first_col(uint16_t value);
-char		*nibblify(uint16_t n);
-void		print_tmino(t_tmino *tmino);
 void		ft_checkerr(int j, char buf);
 void		ft_bail(char *msg);
-void		print_tmino_node(t_list *n);
 void		ft_checktmino(char	*buf);
-void		ft_shift_tmino(t_tmino *tmino);
-void		ft_measure_tmino(t_tmino *tmino);
-void		fakesolve(t_list *tmino_lst, size_t *charmap_dim, uint16_t *bitmap);
-void		print_solution(uint16_t *bitmap, size_t dimensions);
+size_t		check_tmino_count(t_list *tmino_lst);
+void		solve(t_list *tmino_lst, size_t *charmap_dim);
+void		print_solution(t_list *tmino_lst, size_t size);
+
+size_t		init_size(t_list *tmino_lst);
+size_t		calculate_size(uint16_t *bitmap);
+
+uint8_t		test_bit_pos(uint16_t val, uint8_t pos);
+uint16_t	set_bit_pos(uint16_t val, uint8_t pos);
 uint8_t		test_empty_row(uint16_t value);
-uint8_t		test_empty_col(uint16_t *value, size_t pos);
+uint8_t		test_col_bitmap(uint16_t *value, size_t pos);
+uint8_t		test_bit_msk(uint16_t value, uint16_t mask);
+uint16_t	msk_grp(uint8_t pos, uint8_t width);
+uint16_t	read_grp(uint16_t val, uint8_t pos, uint8_t width);
+uint16_t	write_grp(uint16_t val, uint16_t grp, uint8_t pos, uint8_t width);
 
 #endif

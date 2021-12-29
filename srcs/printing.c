@@ -1,0 +1,110 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printing.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 12:32:26 by oabdelfa          #+#    #+#             */
+/*   Updated: 2021/12/27 17:35:04 by rodrodri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fillit.h"
+
+static char		**init_charmap(size_t size);
+static char		**write_charmap(t_list *tmino_lst, char **charmap);
+static char		**write_tmino(t_tmino *tmino, char	**charmap);
+
+/*
+** Print the solution to standard output.
+*/
+void	print_solution(t_list *tmino_lst, size_t size)
+{
+	size_t	row;
+	size_t	col;
+	char	**charmap;
+
+	charmap = init_charmap(size);
+	charmap = write_charmap(tmino_lst, charmap);
+	row = 0;
+	while (row < size)
+	{
+		col = 0;
+		while (col < size)
+		{
+			ft_putchar(charmap[row][col]);
+			col++;
+		}
+		ft_putchar('\n');
+		row++;
+	}
+	ft_free_array((void **)charmap, size);
+}
+
+/*
+** Iterate through the bits of a tetrimino and write its label
+** at the proper row and column of the character map.
+*/
+static char	**write_tmino(t_tmino *tmino, char	**charmap)
+{
+	uint8_t	tmino_bit_idx;
+	uint8_t	row;
+	uint8_t	col;
+
+	row = tmino->row;
+	col = tmino->col;
+	tmino_bit_idx = 0;
+	while (tmino_bit_idx < WIDTH_UINT16)
+	{
+		if (test_bit_pos(tmino->bits, tmino_bit_idx))
+			charmap[row][col] = tmino->label;
+		if (tmino_bit_idx % 4 == 3)
+		{
+			row++;
+			col = tmino->col;
+		}
+		else
+			col++;
+		tmino_bit_idx++;
+	}
+	return (charmap);
+}
+
+/*
+** Iterate through the list of tetriminos and write their labels
+** at the proper row and column of the character map.
+*/
+static char	**write_charmap(t_list *tmino_lst, char	**charmap)
+{
+	while (tmino_lst)
+	{
+		charmap = write_tmino(((t_tmino *)(tmino_lst->content)), charmap);
+		tmino_lst = tmino_lst->next;
+	}
+	return (charmap);
+}
+
+/*
+**	Allocate memory for an array of strings.
+**	and set each character to a dot ('.')
+*/
+static char	**init_charmap(size_t size)
+{
+	char	**charmap;
+	size_t	row;
+
+	charmap = (char **)malloc(size * sizeof(char *));
+	if (!charmap)
+		ft_bail("error");
+	row = 0;
+	while (row < size)
+	{
+		charmap[row] = ft_strnew(size);
+		if (!charmap[row])
+			ft_bail("error");
+		ft_memset(charmap[row], '.', size);
+		row++;
+	}
+	return (charmap);
+}

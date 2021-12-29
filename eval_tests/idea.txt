@@ -1,0 +1,180 @@
+TODO
+====
+- [x] check that last piece ends with a NEWLINE, not TWO! -> error
+- [x] check that the MAXIMUM NUMBER OF PIECES is between 1 and 26! (if not -> error)
+- [x] in printing.c changed line 42 to be ft_free_array to delete the charmap
+- [] try_tmino detects a false bit collision when passed printing_test.txt ???
+	(when 'B' is moved 1 column to the right, no bit collision)
+
+1 tetrimino = 4 x 4 = 16 ints = 16 x 32 bits = 512 bits
+
+char arr[4][4];
+1 tetrimino = 4 x 4 = 16 chars = 16  x 8 bits = 128 bits
+1 tetrimino = 									 16 bits
+
+ints:  40 tetriminos = 40 * 512 = 20048 bits
+chars: 40 tetriminos = 40 * 128 =  5120 bits
+
+40 tetriminos = 40 *  16 =   640 bits
+
+1 tetrimino = 16 bits
+
+....
+###.
+..#.
+....
+
+....
+....
+###.
+..#.
+
+4561321
+.###
+...#
+....
+....
+
+....
+.###
+...#
+....
+
+456123
+....
+....
+###.
+..#.
+
+
+4561890
+###.
+..#.
+....
+....
+
+Storing stage
+-------------
+Unsigned short (2 bytes = 16 bits)
+
+n: MSB 0000 0000 0010 1110 LSB (decimal 4561890)
+                    ^
+
+printf("%u", n); // 4561890
+
+LSB	1110
+	0010
+	0000
+	0000 MSB
+
+(4561890) 0000 0000 0010 1110 = number (decimal 4561890)
+stdint.h => uint16_t guarantees 16 bits
+
+Setting a bit (turn on a bit - set its value to 1)
+ mask: 0001 0000
+          |
+tmino: 0000 1010
+  ret: 0001 1010
+
+Testing a bit (turn on a bit - set its value to 1)
+ mask: 1111 0000
+          &
+tmino: 0000 1010
+  ret: 0000 0000
+
+SHIFT PIECES
+============
+test_first_row() == 0
+test_first_col() == 0
+
+Shift the piece upwards and leftwards.
+
+****************************************
+16 uint16: uint16_t bitmap[16];
+0 1 2 3 4 5 6 7 8 ... 15 (cols)
+
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|1100 1100 0000 0000|
+|0000 0000 0000 0000|
+
+****************************************
+0  1  2  3 % 4 = 3
+4  5  6  7 % 4 = 3
+8  9 10 11
+1213 14 15
+
+P1->P2->P3->Null
+solve(list)
+if list == Null
+	done -> print it
+
+1st piece
+init size -> try piece on map
+
+2nd piece
+try piece(0,0) on map
+try piece(0,1) on map
+place piece:
+	1. write piece to bitmap
+	2. write coord. to piece
+
+3rd piece
+change coord. 
+map size++
+try piece = tmp -> try pieces again
+
+AA..
+AA..
+
+(0,0) ->true
+(0,1) ->true
+(0,2) ->true
+
+..
+..
+
+ABC.
+ABC.
+ABC.
+ABC.
+
+AAAA
+BBBB
+CCCC
+....
+
+ABBBB
+A....
+A....
+A....
+.....
+
+AAAA.
+B....
+B....
+B....
+B....
+
+014.
+235.
+6789
+....
+
+(row,col)
+0. (0,0)
+1. (0,1)
+2. (1,0)
+3. (1,1)

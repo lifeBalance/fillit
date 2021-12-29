@@ -6,13 +6,14 @@
 #    By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/10 14:08:26 by oabdelfa          #+#    #+#              #
-#    Updated: 2021/12/24 00:09:17 by rodrodri         ###   ########.fr        #
+#    Updated: 2021/12/28 19:04:14 by rodrodri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fillit
 
-FNAMES	:= main reading bitwise checking printing solving
+FNAMES	:=	main reading bitwise1 bitwise2 checking printing solve_utils \
+			solving_j debug
 
 OBJS_DIR	:=	./objs/
 
@@ -41,7 +42,7 @@ libft.a:
 	@make -sC libft && make -sC libft clean
 
 clean:
-	@rm -f $(OBJS_DIR)
+	@rm -rf $(OBJS_DIR)
 
 fclean: clean
 	@rm -f $(NAME)

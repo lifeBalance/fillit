@@ -3,22 +3,22 @@
 
 # whitelist
 !/.gitignore
-!/*.c
 !/Makefile
 !/author
 
-# Don't forget to remove this
-!/idea.txt
-!/tetriminos.txt
-!/validation.txt
-
 # whitelist subdirectories
 !*/
+
+# whitelist specific files in srcs
+!/srcs/*.c
+
+# whitelist specific files in project's folder
+!/includes/*.h
 
 # whitelist specific files in libft
 !/libft/*.c
 !/libft/Makefile
 !/libft/includes/libft.h
 
-# whitelist specific files in project's folder
-!/includes/*.h
+# whitelist specific files in eval_tests
+!/eval_tests/*.txt
