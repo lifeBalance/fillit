@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/29 18:04:21 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/29 18:14:13 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ void	solve(t_list *tmino_lst, size_t *size)
 	printf("Initial size: %zu (tmino count: %zu)\n", *size, ft_lstcount(tmino_lst));
 	while (tmino_lst)
 	{
-		bmap_idx = 0;
-		printf("col: %hhu\n", ((t_tmino *)(tmino_lst->content))->col);
-		printf("size * row: %zu\n", *size * ((t_tmino *)(tmino_lst->content))->row);
-		printf("bitmap_idx: %zu\n", bmap_idx);
+		bmap_idx = ((t_tmino *)(tmino_lst->content))->col + *size * ((t_tmino *)(tmino_lst->content))->row;
 		while (bmap_idx < ((*size) * (*size)))
 		{
 			if (try_tmino(((t_tmino *)(tmino_lst->content)), bitmap, *size))
@@ -37,13 +34,14 @@ void	solve(t_list *tmino_lst, size_t *size)
 			bmap_idx++;
 			((t_tmino *)(tmino_lst->content))->col = bmap_idx % (*size);
 			((t_tmino *)(tmino_lst->content))->row = bmap_idx / (*size);
-			printf("tmino row: %zu, col: %zu\n", bmap_idx / (*size), bmap_idx % (*size));
 		}
 		// if the bmap_idx equals the square of the size, means we tried the
 		// piece in all the locations but it couldn't be placed, so we should
 		// BACKTRACK to the piece before and increase its bmap_idx
 		if (bmap_idx == *size * *size)
 		{
+			((t_tmino *)(tmino_lst->content))->col = 0;
+			((t_tmino *)(tmino_lst->content))->row = 0;
 			(*size)++;
 			continue ;
 		}
