@@ -6,21 +6,19 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/29 13:08:00 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/29 13:37:56 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug.h" /* DELETE THIS */
 #include "fillit.h"
-#define TMP	((t_tmino *)(tmp->content)) // Forbidden macro!!
 
 static void		place_tmino(t_tmino *tmino, uint16_t *bitmap);
-static int		try_tmino(t_tmino *tmino, uint8_t row, uint8_t col, uint16_t *bitmap, size_t size);
+static int		try_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
 
 void	solve(t_list *tmino_lst, size_t *size)
 {
 	uint16_t	bitmap[16];
-	int			ret; // use return values to check WTF is going on
 	int			bmap_idx; // 0-255
 	int			bmap_row; // 0-15
 
@@ -39,10 +37,7 @@ void	solve(t_list *tmino_lst, size_t *size)
 				bmap_row++;
 			((t_tmino *)(tmino_lst->content))->col = bmap_idx % 15;
 			((t_tmino *)(tmino_lst->content))->row = bmap_row;
-			ret = try_tmino(((t_tmino *)(tmino_lst->content)), ((t_tmino *)(tmino_lst->content))->row,
-			((t_tmino *)(tmino_lst->content))->col, bitmap, *size);
-			printf("ret: %d\n", ret);
-			if (ret == 1)
+			if (try_tmino(((t_tmino *)(tmino_lst->content)), bitmap, *size))
 				break ;
 			bmap_idx++;
 		}
@@ -54,8 +49,6 @@ void	solve(t_list *tmino_lst, size_t *size)
 		place_tmino(((t_tmino *)(tmino_lst->content)), bitmap);
 		tmino_lst = tmino_lst->next;
 	}
-	// Recalculate the size after placing the pieces on the bitmap.
-	// *size = calculate_size(bitmap);
 	printf("New size: %zu\n", *size);
 }
 
@@ -86,7 +79,7 @@ static void	place_tmino(t_tmino *tmino, uint16_t *bitmap)
 **	by the 'row' and 'col' arguments.
 **	Return '0' if the tetrimino can be placed; '1' otherwise.
 */
-static int	try_tmino(t_tmino *tmino, uint8_t row, uint8_t col, uint16_t *bitmap, size_t size)
+static int	try_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size)
 {
 	uint16_t	tmino_bit;
 	uint16_t	bmap_bit;
@@ -94,20 +87,20 @@ static int	try_tmino(t_tmino *tmino, uint8_t row, uint8_t col, uint16_t *bitmap,
 	size_t		bmap_row;
 
 	tmino_idx = 0;
-	bmap_row = row;
+	bmap_row = tmino->row;
 	while (tmino_idx < WIDTH_UINT16)
 	{
 		tmino_bit = test_bit_pos(tmino->bits, tmino_idx);
-		bmap_bit = test_bit_pos(bitmap[bmap_row], col + (tmino_idx % 4));
+		bmap_bit = test_bit_pos(bitmap[bmap_row], tmino->col + (tmino_idx % 4));
 		if (tmino_bit && bmap_bit)
-			return (-1);
+			return (0);
 		if ((tmino_idx % 4) == 3)
 			bmap_row++;
 		tmino_idx++;
 	}
-	if (col + tmino->width > size)
+	if (tmino->col + tmino->width > size)
 		return (0);
-	if (row + tmino->height > size)
+	if (tmino->row + tmino->height > size)
 		return (0);
 	return (1);
 }
