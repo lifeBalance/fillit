@@ -6,14 +6,14 @@
 #    By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/10 14:08:26 by oabdelfa          #+#    #+#              #
-#    Updated: 2021/12/30 17:45:58 by rodrodri         ###   ########.fr        #
+#    Updated: 2021/12/30 22:05:29 by rodrodri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fillit
 
 FNAMES	:=	main reading bitwise1 bitwise2 checking printing solve_utils \
-			solving_j debug
+			solving debug
 
 OBJS_DIR	:=	./objs/
 
