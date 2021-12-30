@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:51:19 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/27 16:53:16 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/30 17:37:50 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ static t_tmino	init_tmino(char *buf)
 	tmino.bits = get_bits(buf);
 	shift_tmino(&tmino);
 	measure_tmino(&tmino);
-	tmino.row = 0;
-	tmino.col = 0;
+	tmino.pos = 0;
 	tmino.label = label;
 	label++;
 	return (tmino);

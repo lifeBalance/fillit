@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:50:56 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/28 19:03:42 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/30 17:37:02 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ typedef struct s_tmino
 {
 	uint16_t	bits;
 	char		label;
-	uint8_t		col;
-	uint8_t		row;
+	uint8_t		pos;
 	uint8_t		width;
 	uint8_t		height;
 }	t_tmino;
