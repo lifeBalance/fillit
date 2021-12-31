@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/31 17:24:07 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/31 19:20:19 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,29 @@ void	solve(t_list *tmino_lst, uint16_t *bitmap, size_t *size)
 	t_list		*tmp;
 	t_tmino		*tmino;
 
-	tmp = tmino_lst;	
+	tmp = tmino_lst;
 	printf("Initial size: %zu (tmino count: %zu)\n", *size, ft_lstcount(tmino_lst));
 	while (tmp)
 	{
 		tmino = ((t_tmino *)(tmp->content));
 		if (place_tmino(tmino, bitmap, *size))
+		{
 			write_tmino(tmino, bitmap, *size);
+			// print_bitmap(bitmap, *size);
+			// print_solution(tmino_lst, *size);
+		}
 		else
 		{
 			// if (tmino->pos + tmino->height == size && tmino->pos + tmino->width == size)
 			// {
 			// 	(*size)++; // only if the tetrimino is at the bottom-right corner
 			// 	ft_lstiter(tmino_lst, reset_coord); // reset coordinates of all pieces
-			// 	ft_bzero(bitmap, sizeof(uint16_t) * 16); // clean map
+			// 	ft_bzero(bitmap, sizeof(uint16_t) * 16); // clean bitmap
 			// 	tmino = ((t_tmino *)(tmp->content));
 			// 	tmino->pos++;
 			// }
-			// tmp = tmino_lst;
+			(*size)++; // for now it's for print testing
 			reset_coord(tmp); // important!
-			(*size)++; // only if the tetrimino is at the bottom-right corner
 			printf("New size: %zu\n", *size);
 			// tmp = tmino_lst;
 			continue ;
@@ -84,8 +87,10 @@ static int	place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size)
 	uint16_t	bmap_bit;
 	size_t		tmino_idx;
 
-	while (((tmino->pos / size) + tmino->height) <= size)
+	while (check_height(tmino, size))
 	{
+		if (!check_width(tmino, size) && tmino->pos == 0)
+			return (0);
 		tmino_idx = 0;
 		while (tmino_idx < WIDTH_UINT16)
 		{
@@ -94,17 +99,12 @@ static int	place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size)
 				(tmino_idx / WIDTH_NIBBLE)], (tmino->pos % size) + \
 				(tmino_idx % WIDTH_NIBBLE));
 			if (tmino_bit && bmap_bit)
-			{
-				// printf("%c: collided at %d\n", tmino->label, tmino->pos);
 				break ;
-			}
 			tmino_idx++;
 		}
-		if (tmino_idx == WIDTH_UINT16)
+		if ((tmino_idx == WIDTH_UINT16) && check_width(tmino, size))
 			return (1);
 		tmino->pos++;
-		if (((tmino->pos % size) + tmino->width) > size)
-			tmino->pos = ((tmino->pos / size) + 1) * size;
 	}
 	return (0);
 }

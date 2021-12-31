@@ -1,0 +1,6 @@
+In the 'place_tmino' function (solve.c) it would have been cool to use:
+```c
+if (!check_width(tmino, size)
+	tmino->pos = ((tmino->pos / size) + 1) * size;
+```
+But it was exceeding the 42 Norm by one line!

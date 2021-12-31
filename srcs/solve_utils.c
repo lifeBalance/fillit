@@ -6,13 +6,27 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/28 16:46:12 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/31 19:09:11 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
 static size_t	find_integral_sqrt(size_t num);
+
+int	check_height(t_tmino *tmino, size_t size)
+{
+	if (((tmino->pos / size) + tmino->height) <= size)
+		return (1);
+	return (0);
+}
+
+int	check_width(t_tmino *tmino, size_t size)
+{
+	if (((tmino->pos % size) + tmino->width) <= size)
+		return (1);
+	return (0);
+}
 
 /*
 **	Find the initial size of the assembled tetriminos on the bitmap,
