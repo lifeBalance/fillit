@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:51:19 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/30 17:37:50 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/31 18:04:34 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,18 @@ static uint16_t	get_bits(char *buf)
 */
 static t_tmino	init_tmino(char *buf)
 {
-	t_tmino		tmino;
-	static char	label = 'A';
+	t_tmino			tmino;
+	static char		label = 'A';
+	static uint8_t	id = 0;
 
 	tmino.bits = get_bits(buf);
 	shift_tmino(&tmino);
 	measure_tmino(&tmino);
 	tmino.pos = 0;
 	tmino.label = label;
+	tmino.id = id;
 	label++;
+	id++;
 	return (tmino);
 }
 

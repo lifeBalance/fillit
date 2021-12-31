@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:50:56 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/31 17:22:17 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/31 19:26:06 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_tmino
 {
 	uint16_t	bits;
 	char		label;
+	uint8_t		id;
 	uint8_t		pos;
 	uint8_t		width;
 	uint8_t		height;
@@ -60,7 +61,6 @@ void		solve(t_list *tmino_lst, uint16_t *bitmap, size_t *charmap_dim);
 void		print_solution(t_list *tmino_lst, size_t size);
 
 size_t		init_size(t_list *tmino_lst);
-size_t		calculate_size(uint16_t *bitmap);
 
 uint8_t		test_bit_pos(uint16_t val, uint8_t pos);
 uint16_t	set_bit_pos(uint16_t val, uint8_t pos);
