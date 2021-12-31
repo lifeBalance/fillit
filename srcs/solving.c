@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/30 23:16:32 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/31 13:29:06 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ void	solve(t_list *tmino_lst, size_t *size)
 	printf("Initial size: %zu (tmino count: %zu)\n", *size, ft_lstcount(tmino_lst));
 	while (tmp)
 	{
-		if (place_tmino(((t_tmino *)(tmp->content)), bitmap, *size))
-			write_tmino(((t_tmino *)(tmp->content)), bitmap, *size);
+		if (place_tmino((t_tmino *)(tmp->content), bitmap, *size))
+			write_tmino((t_tmino *)(tmp->content), bitmap, *size);
 		else
 		{
 			(*size)++;
+			printf("New size: %zu\n", *size);
 			reset_coord(tmp);
 			// tmp = tmino_lst;
 			// ft_lstiter(tmino_lst, reset_coord);
@@ -40,7 +41,6 @@ void	solve(t_list *tmino_lst, size_t *size)
 		}
 		tmp = tmp->next;
 	}
-	printf("New size: %zu\n", *size);
 }
 
 /*
@@ -77,12 +77,8 @@ static int	place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size)
 	uint16_t	bmap_bit;
 	size_t		tmino_idx;
 
-	while (tmino->pos < size * size)
+	while (((tmino->pos / size) + tmino->height) <= size)
 	{
-		if (((tmino->pos % size) + tmino->width) > size)
-			tmino->pos++;
-		if (((tmino->pos / size) + tmino->height) > size)
-			return (0);
 		tmino_idx = 0;
 		while (tmino_idx < WIDTH_UINT16)
 		{
@@ -97,6 +93,8 @@ static int	place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size)
 		if (tmino_idx == WIDTH_UINT16)
 			return (1);
 		tmino->pos++;
+		if (((tmino->pos % size) + tmino->width) > size)
+			tmino->pos = ((tmino->pos / size) + 1) * size;
 	}
 	return (0);
 }
