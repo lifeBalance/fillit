@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:50:56 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/30 17:37:02 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/31 17:22:17 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		ft_checkerr(int j, char buf);
 void		ft_bail(char *msg);
 void		ft_checktmino(char	*buf);
 size_t		check_tmino_count(t_list *tmino_lst);
-void		solve(t_list *tmino_lst, size_t *charmap_dim);
+void		solve(t_list *tmino_lst, uint16_t *bitmap, size_t *charmap_dim);
 void		print_solution(t_list *tmino_lst, size_t size);
 
 size_t		init_size(t_list *tmino_lst);
