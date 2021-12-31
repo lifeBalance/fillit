@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:50:56 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/31 19:27:31 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/31 19:40:57 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void		print_solution(t_list *tmino_lst, size_t size);
 size_t		init_size(t_list *tmino_lst);
 int			check_height(t_tmino *tmino, size_t size);
 int			check_width(t_tmino *tmino, size_t size);
+t_list		*lst_find_id(t_list *lst, uint8_t id);
 
 uint8_t		test_bit_pos(uint16_t val, uint8_t pos);
 uint16_t	set_bit_pos(uint16_t val, uint8_t pos);

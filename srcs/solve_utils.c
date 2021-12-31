@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/31 19:09:11 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/31 20:11:27 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,17 @@ int	check_width(t_tmino *tmino, size_t size)
 	return (0);
 }
 
+t_list	*lst_find_id(t_list *lst, uint8_t id)
+{
+	while (lst)
+	{
+		if (((t_tmino *)(lst->content))->id == id)
+			return (lst);
+		lst = lst->next;
+	}
+	return (NULL);
+}
+
 /*
 **	Find the initial size of the assembled tetriminos on the bitmap,
 **	based on the square root of number of tetriminos, times four (4 because
@@ -37,7 +48,7 @@ size_t	init_size(t_list *tmino_lst)
 {
 	size_t	tminos_count;
 	size_t	ret;
-		
+
 	tminos_count = ft_lstcount(tmino_lst);
 	ret = find_integral_sqrt(tminos_count * 4);
 	if (ret * ret < tminos_count * 4)

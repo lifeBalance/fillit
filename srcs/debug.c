@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 14:41:03 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/31 18:05:46 by rodrodri         ###   ########.fr       */
+/*   Updated: 2021/12/31 20:10:53 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	print_tmino(t_tmino *tmino)
 {
 	int	i;
 
+	printf("id: %hhu, pos: %hhu, ", tmino->id, tmino->pos);
 	printf("width: %hhu, height: %hhu\n", tmino->width, tmino->height);
-	printf("id: %hhu, pos: %hhu\n", tmino->id, tmino->pos);
 	i = 0;
 	while (i < WIDTH_UINT16)
 	{
