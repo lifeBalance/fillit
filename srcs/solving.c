@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/31 19:20:19 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/01 13:35:39 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,39 +17,34 @@ static void		reset_coord(t_list *node);
 static void		write_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
 static int		place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
 
-void	solve(t_list *tmino_lst, uint16_t *bitmap, size_t *size)
+void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
 {
-	t_list		*tmp;
 	t_tmino		*tmino;
 
-	tmp = tmino_lst;
-	printf("Initial size: %zu (tmino count: %zu)\n", *size, ft_lstcount(tmino_lst));
-	while (tmp)
+	if (tmino_lst == NULL)
+		return ;
+	tmino = ((t_tmino *)(tmino_lst->content));
+	if (place_tmino(tmino, bitmap, *size))
 	{
-		tmino = ((t_tmino *)(tmp->content));
-		if (place_tmino(tmino, bitmap, *size))
+		write_tmino(tmino, bitmap, *size);
+		solve(head, tmino_lst->next, bitmap, size);
+	}
+	else
+	{
+		if (tmino->id == 0 && tmino->pos + tmino->height >= *size && tmino->pos + tmino->width >= *size)
 		{
-			write_tmino(tmino, bitmap, *size);
-			// print_bitmap(bitmap, *size);
-			// print_solution(tmino_lst, *size);
+			(*size)++;
+			ft_lstiter(head, reset_coord); // reset coordinates of all pieces
+			tmino_lst = head;
 		}
 		else
 		{
-			// if (tmino->pos + tmino->height == size && tmino->pos + tmino->width == size)
-			// {
-			// 	(*size)++; // only if the tetrimino is at the bottom-right corner
-			// 	ft_lstiter(tmino_lst, reset_coord); // reset coordinates of all pieces
-			// 	ft_bzero(bitmap, sizeof(uint16_t) * 16); // clean bitmap
-			// 	tmino = ((t_tmino *)(tmp->content));
-			// 	tmino->pos++;
-			// }
-			(*size)++; // for now it's for print testing
-			reset_coord(tmp); // important!
-			printf("New size: %zu\n", *size);
-			// tmp = tmino_lst;
-			continue ;
+			reset_coord(tmino_lst);  // reset coordinates ONLY of current piece
+			tmino_lst = lst_find_id(head, tmino->id - 1); // backtrack
+			((t_tmino *)(tmino_lst->content))->pos++;
 		}
-		tmp = tmp->next;
+		ft_bzero(bitmap, sizeof(uint16_t) * 16); // reset map
+		solve(head, tmino_lst, bitmap, size);
 	}
 }
 
