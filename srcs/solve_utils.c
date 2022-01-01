@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/01 17:23:01 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/02 00:48:07 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,20 @@
 
 static size_t	find_integral_sqrt(size_t num);
 
+/*
+**	Returns the last possible position of a tetrimino before it collides
+**	with any of the borders; if the return value is negative, the caller
+**	would know that the size is not big enough to accomodate the piece.
+*/
 int	last_pos(t_tmino *tmino, size_t size)
 {
 	return ((size * size) - (tmino->height * size) + (size - tmino->width));
 }
 
+/*
+**	Returns '0' if a tetrimino at a given position and size collides
+**	with the bottom border; '1' otherwise.
+*/
 int	check_height(t_tmino *tmino, size_t size)
 {
 	if (((tmino->pos / size) + tmino->height) <= size)
@@ -26,22 +35,15 @@ int	check_height(t_tmino *tmino, size_t size)
 	return (0);
 }
 
+/*
+**	Returns '0' if a tetrimino at a given position and size collides
+**	with the right border; '1' otherwise.
+*/
 int	check_width(t_tmino *tmino, size_t size)
 {
 	if (((tmino->pos % size) + tmino->width) <= size)
 		return (1);
 	return (0);
-}
-
-t_list	*lst_find_id(t_list *lst, uint8_t id)
-{
-	while (lst)
-	{
-		if (((t_tmino *)(lst->content))->id == id)
-			return (lst);
-		lst = lst->next;
-	}
-	return (NULL);
 }
 
 /*
