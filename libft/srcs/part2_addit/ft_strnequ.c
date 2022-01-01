@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnequ.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 13:51:19 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/01 19:40:30 by rodrodri         ###   ########.fr       */
+/*   Created: 2021/10/30 14:41:03 by rodrodri          #+#    #+#             */
+/*   Updated: 2021/11/14 23:11:27 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug.h" /* DELETE THIS */
-#include "fillit.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+int	ft_strnequ(char const *s1, char const *s2, size_t n)
 {
-	t_list		*tmino_lst;
-	uint16_t	bitmap[16];
-	size_t		size;
-
-	tmino_lst = NULL;
-	ft_bzero(bitmap, sizeof(uint16_t) * 16);
-	ft_checkargc(argc);
-	ft_readtminos(argv[1], &tmino_lst);
-	size = init_size(tmino_lst);
-	solve(tmino_lst, tmino_lst, bitmap, &size);
-	print_solution(tmino_lst, size);
-	ft_lstdel(&tmino_lst, ft_lstdelcont);
+	if (s1 && s2)
+		return (ft_strncmp(s1, s2, n) == 0);
 	return (0);
 }

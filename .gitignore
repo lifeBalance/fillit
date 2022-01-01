@@ -16,9 +16,9 @@
 !/includes/*.h
 
 # whitelist specific files in libft
-!/libft/*.c
+!/libft/srcs/**/*.c
 !/libft/Makefile
-!/libft/includes/libft.h
+!/libft/includes/*.h
 
 # whitelist specific files in eval_tests
 !/eval_tests/*.txt

@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/01 17:50:40 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/01 18:31:37 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void		reset_coord(t_list *node);
 static void		write_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
 static int		place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
-/*
+// /*
 void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
 {
 	t_tmino		*tmino;
@@ -34,25 +34,25 @@ void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
 	else
 	{
 		// printf("%c couldn't be placed at %d\n", tmino->label, tmino->pos);
-		// if (tmino->id == 0 && (tmino->pos + tmino->height >= *size || tmino->pos + tmino->width >= *size))
-		if (tmino->id)
+		if (tmino->id == 0 && tmino->pos >= last_pos(tmino, *size))
 		{
 			(*size)++;
 			// printf("%c request increase size to %zu\n", tmino->label, *size);
 			ft_lstiter(head, reset_coord); // reset coordinates of all pieces
-			tmino_lst = head;
+			// tmino_lst = head;
 		}
 		else
 		{
-			// reset_coord(tmino_lst);  // reset coordinates ONLY of current piece
-			tmino_lst = lst_find_id(head, tmino->id - 1); // backtrack
-			((t_tmino *)(tmino_lst->content))->pos++;
+			reset_coord(tmino_lst);  // reset coordinates ONLY of current piece
+			tmino_lst = lst_find_id(head, tmino->id - 1); // backtrack to last piece
+			(((t_tmino *)(tmino_lst->content))->pos)++;
 		}
+		tmino_lst = head;
 		ft_bzero(bitmap, sizeof(uint16_t) * 16); // reset map
 		solve(head, tmino_lst, bitmap, size);
 	}
 }
-*/
+// */
 /*
 **	Use the tetrimino's 'pos' field, to
 **	write the 'bits' field to the bitmap.
@@ -114,13 +114,11 @@ static void	reset_coord(t_list *node)
 	((t_tmino *)(node->content))->pos = 0;
 }
 
-// /*
+/*
 void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
 {
 	t_tmino		*tmino;
 	(void)head;
-	(void)reset_coord;
-	// *size = 6;
 	printf("initial size: %zu (%zu pieces)\n", *size, ft_lstcount(head));
 	while (tmino_lst)
 	{
@@ -151,4 +149,4 @@ void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
 	// tmp = tmp->next;// select fourth node
 	// ((t_tmino *)(tmp->content))->pos = 5;	// fake position for second node
 }
-// */
+*/
