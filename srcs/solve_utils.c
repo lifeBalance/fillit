@@ -6,13 +6,18 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/31 20:11:27 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/01 17:23:01 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
 static size_t	find_integral_sqrt(size_t num);
+
+int	last_pos(t_tmino *tmino, size_t size)
+{
+	return ((size * size) - (tmino->height * size) + (size - tmino->width));
+}
 
 int	check_height(t_tmino *tmino, size_t size)
 {

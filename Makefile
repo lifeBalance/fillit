@@ -6,7 +6,7 @@
 #    By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/10 14:08:26 by oabdelfa          #+#    #+#              #
-#    Updated: 2021/12/30 22:05:29 by rodrodri         ###   ########.fr        #
+#    Updated: 2022/01/01 14:16:21 by rodrodri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,5 +46,6 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
+	@rm -f libft/libft.a
 
 re: fclean all

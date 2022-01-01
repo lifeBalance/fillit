@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/01 13:35:39 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/01 17:50:40 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,35 @@
 static void		reset_coord(t_list *node);
 static void		write_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
 static int		place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
-
+/*
 void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
 {
 	t_tmino		*tmino;
 
+	// printf("initial size: %zu (%zu pieces)\n", *size, ft_lstcount(head));
 	if (tmino_lst == NULL)
 		return ;
 	tmino = ((t_tmino *)(tmino_lst->content));
 	if (place_tmino(tmino, bitmap, *size))
 	{
+		// printf("%c was placed at %d\n", tmino->label, tmino->pos);
 		write_tmino(tmino, bitmap, *size);
 		solve(head, tmino_lst->next, bitmap, size);
 	}
 	else
 	{
-		if (tmino->id == 0 && tmino->pos + tmino->height >= *size && tmino->pos + tmino->width >= *size)
+		// printf("%c couldn't be placed at %d\n", tmino->label, tmino->pos);
+		// if (tmino->id == 0 && (tmino->pos + tmino->height >= *size || tmino->pos + tmino->width >= *size))
+		if (tmino->id)
 		{
 			(*size)++;
+			// printf("%c request increase size to %zu\n", tmino->label, *size);
 			ft_lstiter(head, reset_coord); // reset coordinates of all pieces
 			tmino_lst = head;
 		}
 		else
 		{
-			reset_coord(tmino_lst);  // reset coordinates ONLY of current piece
+			// reset_coord(tmino_lst);  // reset coordinates ONLY of current piece
 			tmino_lst = lst_find_id(head, tmino->id - 1); // backtrack
 			((t_tmino *)(tmino_lst->content))->pos++;
 		}
@@ -47,7 +52,7 @@ void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
 		solve(head, tmino_lst, bitmap, size);
 	}
 }
-
+*/
 /*
 **	Use the tetrimino's 'pos' field, to
 **	write the 'bits' field to the bitmap.
@@ -82,10 +87,10 @@ static int	place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size)
 	uint16_t	bmap_bit;
 	size_t		tmino_idx;
 
-	while (check_height(tmino, size))
+	if (last_pos(tmino, size) < 0)
+		return (0);
+	while (tmino->pos <= last_pos(tmino, size))
 	{
-		if (!check_width(tmino, size) && tmino->pos == 0)
-			return (0);
 		tmino_idx = 0;
 		while (tmino_idx < WIDTH_UINT16)
 		{
@@ -97,7 +102,7 @@ static int	place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size)
 				break ;
 			tmino_idx++;
 		}
-		if ((tmino_idx == WIDTH_UINT16) && check_width(tmino, size))
+		if (tmino_idx == WIDTH_UINT16 && check_width(tmino, size))
 			return (1);
 		tmino->pos++;
 	}
@@ -109,18 +114,33 @@ static void	reset_coord(t_list *node)
 	((t_tmino *)(node->content))->pos = 0;
 }
 
-/*
-void	solve(t_list *tmino_lst, size_t *size)
+// /*
+void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
 {
-	uint16_t	bitmap[16];
-	t_list		*tmp;
-
-	// Initialize the bitmap
-	ft_bzero(bitmap, sizeof(uint16_t) * 16);
-
-	// Calculate the initial size
-	*size = init_size(tmino_lst);
-
+	t_tmino		*tmino;
+	(void)head;
+	(void)reset_coord;
+	// *size = 6;
+	printf("initial size: %zu (%zu pieces)\n", *size, ft_lstcount(head));
+	while (tmino_lst)
+	{
+		tmino = ((t_tmino *)(tmino_lst->content));
+		if (place_tmino(tmino, bitmap, *size))
+		{
+			printf("%c was placed at %d\n", tmino->label, tmino->pos);
+			write_tmino(tmino, bitmap, *size);
+		}
+		else
+		{
+			printf("%c couldn't be placed at %hhu\n", tmino->label, tmino->pos);
+			(*size)++;
+			reset_coord(tmino_lst);
+			printf("increasing size to %zu\n", *size);
+			continue ;
+		}
+		tmino_lst = tmino_lst->next;
+	}
+	// print_bitmap(bitmap, WIDTH_UINT16);
 	// Fabricate fake positions for the tetriminos
 	// tmp = tmp->next;// select second node
 	// ((t_tmino *)(tmp->content))->pos = 2;	// fake position for second node
@@ -131,4 +151,4 @@ void	solve(t_list *tmino_lst, size_t *size)
 	// tmp = tmp->next;// select fourth node
 	// ((t_tmino *)(tmp->content))->pos = 5;	// fake position for second node
 }
-*/
+// */
