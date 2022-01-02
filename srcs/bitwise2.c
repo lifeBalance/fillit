@@ -6,11 +6,16 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:02:23 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/27 16:56:29 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/02 20:13:35 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+
+uint16_t	clear_bit_pos(uint16_t val, uint8_t pos)
+{
+	return (val & ~(1 << pos));
+}
 
 uint16_t	read_grp(uint16_t val, uint8_t pos, uint8_t width)
 {

@@ -6,16 +6,16 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/02 12:46:29 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/02 20:15:45 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug.h" /* DELETE THIS */
 #include "fillit.h"
 
 static void		reset_coord(t_list *node);
 static void		write_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
 static int		place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
+static t_list	*del_tmino(t_list *node, uint16_t *bitmap, size_t size);
 
 void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
 {
@@ -35,15 +35,15 @@ void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
 		{
 			(*size)++;
 			ft_lstiter(head, reset_coord);
+			tmino_lst = head;
+			ft_bzero(bitmap, sizeof(uint16_t) * 16);
 		}
 		else
 		{
 			reset_coord(tmino_lst);
-			tmino_lst = lst_find_id(head, tmino->id - 1);
+			tmino_lst = del_tmino(lst_find_id(head, tmino->id - 1), bitmap, *size);
 			(((t_tmino *)(tmino_lst->content))->pos)++;
 		}
-		tmino_lst = head;
-		ft_bzero(bitmap, sizeof(uint16_t) * 16);
 		solve(head, tmino_lst, bitmap, size);
 	}
 }
@@ -67,6 +67,26 @@ static void	write_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size)
 			bitmap[bmap_row] = set_bit_pos(bitmap[bmap_row], bmap_col);
 		tmino_idx++;
 	}
+}
+
+static t_list	*del_tmino(t_list *node, uint16_t *bitmap, size_t size)
+{
+	size_t		bmap_row;
+	size_t		bmap_col;
+	size_t		tmino_idx;
+	t_tmino		*tmino;
+
+	tmino_idx = 0;
+	tmino = (t_tmino *)(node->content);
+	while (tmino_idx < WIDTH_UINT16)
+	{
+		bmap_row = (tmino->pos / size) + (tmino_idx / WIDTH_NIBBLE);
+		bmap_col = (tmino->pos % size) + (tmino_idx % WIDTH_NIBBLE);
+		if (test_bit_pos(tmino->bits, tmino_idx))
+			bitmap[bmap_row] = clear_bit_pos(bitmap[bmap_row], bmap_col);
+		tmino_idx++;
+	}
+	return (node);
 }
 
 /*

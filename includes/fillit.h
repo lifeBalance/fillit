@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:50:56 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/02 12:46:14 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/02 20:13:47 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int			last_pos(t_tmino *tmino, size_t size);
 t_list		*lst_find_id(t_list *lst, uint8_t id);
 
 uint8_t		test_bit_pos(uint16_t val, uint8_t pos);
+uint16_t	clear_bit_pos(uint16_t val, uint8_t pos);
 uint16_t	set_bit_pos(uint16_t val, uint8_t pos);
 uint8_t		test_empty_row(uint16_t value);
 uint8_t		test_col_bitmap(uint16_t *value, size_t pos);

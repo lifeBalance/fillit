@@ -6,11 +6,10 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:51:19 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/02 12:19:33 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/02 20:17:47 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug.h" /* DELETE THIS */
 #include "fillit.h"
 
 int	main(int argc, char **argv)
@@ -24,7 +23,6 @@ int	main(int argc, char **argv)
 	ft_checkargc(argc);
 	ft_readtminos(argv[1], &tmino_lst);
 	size = init_size(tmino_lst);
-	// ft_lstiter(tmino_lst, print_tmino_node);
 	solve(tmino_lst, tmino_lst, bitmap, &size);
 	print_solution(tmino_lst, size);
 	ft_lstdel(&tmino_lst, ft_lstdelcont);
