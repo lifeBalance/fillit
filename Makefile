@@ -6,7 +6,7 @@
 #    By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/10 14:08:26 by oabdelfa          #+#    #+#              #
-#    Updated: 2022/01/01 14:16:21 by rodrodri         ###   ########.fr        #
+#    Updated: 2022/01/03 00:26:22 by rodrodri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,13 +39,16 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 libft.a:
-	@make -sC libft && make -sC libft clean
+	@make -sC libft
 
 clean:
 	@rm -rf $(OBJS_DIR)
+	@make -sC libft clean
 
 fclean: clean
 	@rm -f $(NAME)
-	@rm -f libft/libft.a
+	@make -sC libft fclean
 
 re: fclean all
+
+.PHONY:	all clean fclean re
