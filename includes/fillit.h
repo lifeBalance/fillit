@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:50:56 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/01 17:20:41 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/02 12:46:14 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ void		solve(t_list *head, t_list *lst, uint16_t *bitmap, size_t *size);
 void		print_solution(t_list *tmino_lst, size_t size);
 
 size_t		init_size(t_list *tmino_lst);
-int			check_height(t_tmino *tmino, size_t size);
-int			check_width(t_tmino *tmino, size_t size);
+int			check_right_side(t_tmino *tmino, size_t size);
 int			last_pos(t_tmino *tmino, size_t size);
 t_list		*lst_find_id(t_list *lst, uint8_t id);
 

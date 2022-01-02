@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/02 00:48:07 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/02 12:46:49 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,30 @@ int	last_pos(t_tmino *tmino, size_t size)
 
 /*
 **	Returns '0' if a tetrimino at a given position and size collides
-**	with the bottom border; '1' otherwise.
+**	with the right border; '1' otherwise.
 */
-int	check_height(t_tmino *tmino, size_t size)
+int	check_right_side(t_tmino *tmino, size_t size)
 {
-	if (((tmino->pos / size) + tmino->height) <= size)
+	if (((tmino->pos % size) + tmino->width) <= size)
 		return (1);
 	return (0);
 }
 
 /*
-**	Returns '0' if a tetrimino at a given position and size collides
-**	with the right border; '1' otherwise.
+**	Finds a tetrimino by its 'id' field. It takes 2 arguments:
+**	- The head of a linked-list.
+**	- The 'id' of the node we want.
+**	Returns the address of the node; 'NULL' if it doesn't exist.
 */
-int	check_width(t_tmino *tmino, size_t size)
+t_list	*lst_find_id(t_list *lst, uint8_t id)
 {
-	if (((tmino->pos % size) + tmino->width) <= size)
-		return (1);
-	return (0);
+	while (lst)
+	{
+		if (((t_tmino *)(lst->content))->id == id)
+			return (lst);
+		lst = lst->next;
+	}
+	return (NULL);
 }
 
 /*
