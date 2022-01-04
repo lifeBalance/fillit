@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:51:19 by rodrodri          #+#    #+#             */
-/*   Updated: 2021/12/31 18:04:34 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/04 15:31:59 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_readtminos(char *fname, t_list **tmino_lst)
 
 	fd = open(fname, O_RDONLY);
 	if (fd < 0)
-		exit (EXIT_FAILURE);
+		ft_bail("error");
 	ret = read(fd, buf, TMINO_LEN);
 	while (ret)
 	{

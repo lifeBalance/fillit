@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:22:27 by oabdelfa          #+#    #+#             */
-/*   Updated: 2021/12/24 22:39:57 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/04 14:49:46 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_checkargc(int argc)
 	if (argc != 2)
 	{
 		ft_putendl("fillit: missing file operand");
-		ft_putendl("usage: './fillit <filename>'\n");
+		ft_putendl("usage: './fillit <filename>'");
 		exit (EXIT_FAILURE);
 	}
 }
