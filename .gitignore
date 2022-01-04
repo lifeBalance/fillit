@@ -5,6 +5,8 @@
 !/.gitignore
 !/Makefile
 !/author
+!/README.md
+!/graded.png
 
 # whitelist subdirectories
 !*/
