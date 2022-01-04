@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/02 20:15:45 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/04 11:20:49 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ static void		write_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
 static int		place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
 static t_list	*del_tmino(t_list *node, uint16_t *bitmap, size_t size);
 
-void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
+void	solve(t_list *head, t_list *lst, uint16_t *bitmap, size_t *size)
 {
 	t_tmino		*tmino;
 
-	if (tmino_lst == NULL)
+	if (lst == NULL)
 		return ;
-	tmino = ((t_tmino *)(tmino_lst->content));
+	tmino = ((t_tmino *)(lst->content));
 	if (place_tmino(tmino, bitmap, *size))
 	{
 		write_tmino(tmino, bitmap, *size);
-		solve(head, tmino_lst->next, bitmap, size);
+		solve(head, lst->next, bitmap, size);
 	}
 	else
 	{
@@ -35,16 +35,14 @@ void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
 		{
 			(*size)++;
 			ft_lstiter(head, reset_coord);
-			tmino_lst = head;
 			ft_bzero(bitmap, sizeof(uint16_t) * 16);
 		}
 		else
 		{
-			reset_coord(tmino_lst);
-			tmino_lst = del_tmino(lst_find_id(head, tmino->id - 1), bitmap, *size);
-			(((t_tmino *)(tmino_lst->content))->pos)++;
+			reset_coord(lst);
+			lst = del_tmino(lst_find_id(head, tmino->id - 1), bitmap, *size);
 		}
-		solve(head, tmino_lst, bitmap, size);
+		solve(head, lst, bitmap, size);
 	}
 }
 
@@ -69,6 +67,12 @@ static void	write_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size)
 	}
 }
 
+/*
+**	Deletes the tetrimino's passed as argument from the bitmap.
+**	It also advances its position to the next spot (we add this feature
+**	here because the 'solving' function was exceeding the maximum amount
+**	of lines allowed by the 42 school's Norm).
+*/
 static t_list	*del_tmino(t_list *node, uint16_t *bitmap, size_t size)
 {
 	size_t		bmap_row;
@@ -86,6 +90,7 @@ static t_list	*del_tmino(t_list *node, uint16_t *bitmap, size_t size)
 			bitmap[bmap_row] = clear_bit_pos(bitmap[bmap_row], bmap_col);
 		tmino_idx++;
 	}
+	tmino->pos++;
 	return (node);
 }
 
@@ -128,37 +133,3 @@ static void	reset_coord(t_list *node)
 {
 	((t_tmino *)(node->content))->pos = 0;
 }
-
-/*
-void	solve(t_list *head, t_list *tmino_lst, uint16_t *bitmap, size_t *size)
-{
-	t_tmino		*tmino;
-	(void)head;
-	*size = 6;
-	printf("initial size: %zu (%zu pieces)\n", *size, ft_lstcount(head));
-	while (tmino_lst)
-	{
-		tmino = ((t_tmino *)(tmino_lst->content));
-		printf("%c's last position: %d\n", tmino->label, last_pos(tmino, *size));
-		if (place_tmino(tmino, bitmap, *size))
-		{
-			printf("%c was placed at %d\n", tmino->label, tmino->pos);
-			write_tmino(tmino, bitmap, *size);
-		}
-		else
-		{
-			printf("%c couldn't be placed at %hhu\n", tmino->label, tmino->pos);
-			(*size)++;
-			reset_coord(tmino_lst);
-			printf("increasing size to %zu\n", *size);
-			continue ;
-		}
-		tmino_lst = tmino_lst->next;
-	}
-}
-	// printf("size: %zu (%zu pieces)\n", *size, ft_lstcount(head));
-		// printf("%c was placed at %d\n", tmino->label, tmino->pos);
-			// printf("%c couldn't be placed at %d\n", tmino->label, tmino->pos);
-			// printf("%c requests increase the size to %zu\n", tmino->label, *size);
-			// printf("backtracking to %c; now at %d position\n",
-*/

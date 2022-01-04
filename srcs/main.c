@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:51:19 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/02 20:17:47 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/04 11:30:23 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,9 @@ int	main(int argc, char **argv)
 	ft_lstdel(&tmino_lst, ft_lstdelcont);
 	return (0);
 }
+
+/*
+**	To test for leaks, add the following line before the return statement:
+**		system("leaks fillit");
+**	Then compile and run.
+*/
