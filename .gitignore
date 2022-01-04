@@ -7,6 +7,7 @@
 !/author
 !/README.md
 !/graded.png
+!/*.pdf
 
 # whitelist subdirectories
 !*/
