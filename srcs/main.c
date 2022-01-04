@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:51:19 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/04 11:30:23 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/04 11:42:19 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@ int	main(int argc, char **argv)
 /*
 **	To test for leaks, add the following line before the return statement:
 **		system("leaks fillit");
-**	Then compile and run.
+**	Then compile and run. Optionally, setting the following environment
+**	variable produces additional debugging information:
+**		export MallocStackLogging=1
 */
