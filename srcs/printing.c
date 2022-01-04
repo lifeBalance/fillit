@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 12:32:26 by oabdelfa          #+#    #+#             */
-/*   Updated: 2022/01/01 19:40:08 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/04 11:09:35 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	print_solution(t_list *tmino_lst, size_t size)
 		ft_strdel(charmap + row);
 		row++;
 	}
+	free(charmap);
 }
 
 /*
