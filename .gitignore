@@ -24,3 +24,4 @@
 
 # whitelist specific files in eval_tests
 !/eval_tests/*.txt
+!/eval_tests/*.test
