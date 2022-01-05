@@ -10,3 +10,4 @@ At the beginning of the project, we started looking for clues in another repos, 
 
 ### TODO
 - [] add a descriptive write up of the techniques used.
+- [] make it work with `eval_tests/speed.txt` (currently segfaults).
