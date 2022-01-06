@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/06 17:22:34 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/06 23:27:00 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,32 +17,62 @@ static void		write_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
 static int		place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size);
 static t_list	*del_tmino(t_list *node, uint16_t *bitmap, size_t size);
 
+/*
+**	Recursive Backtracking (it segfaults with speed.txt)
+*/
+// void	solve(t_list *head, t_list *lst, uint16_t *bitmap, size_t *size)
+// {
+// 	t_tmino		*tmino;
+
+// 	if (!lst)
+// 		return ;
+// 	tmino = ((t_tmino *)(lst->content));
+// 	if (tmino->id == 0 && tmino->pos >= last_pos(tmino, *size))
+// 	{
+// 		(*size)++;
+// 		ft_lstiter(head, reset_coord);
+// 		ft_bzero(bitmap, sizeof(uint16_t) * 16);
+// 	}
+// 	else if (place_tmino(tmino, bitmap, *size))
+// 	{
+// 		write_tmino(tmino, bitmap, *size);
+// 		lst = lst->next;
+// 	}
+// 	else
+// 	{
+// 		reset_coord(lst);
+// 		lst = lst_find_id(head, tmino->id - 1);
+// 		del_tmino(lst, bitmap, *size);
+// 	}
+// 	solve(head, lst, bitmap, size);
+// }
+/*
+**	Iterative Backtracking (doesn't segfault with speed.txt)
+*/
 void	solve(t_list *head, t_list *lst, uint16_t *bitmap, size_t *size)
 {
 	t_tmino		*tmino;
 
-	if (lst == NULL)
-		return ;
-	tmino = ((t_tmino *)(lst->content));
-	if (place_tmino(tmino, bitmap, *size))
+	while (lst)
 	{
-		write_tmino(tmino, bitmap, *size);
-		solve(head, lst->next, bitmap, size);
-	}
-	else
-	{
+		tmino = ((t_tmino *)(lst->content));
 		if (tmino->id == 0 && tmino->pos >= last_pos(tmino, *size))
 		{
 			(*size)++;
 			ft_lstiter(head, reset_coord);
 			ft_bzero(bitmap, sizeof(uint16_t) * 16);
 		}
+		else if (place_tmino(tmino, bitmap, *size))
+		{
+			write_tmino(tmino, bitmap, *size);
+			lst = lst->next;
+		}
 		else
 		{
 			reset_coord(lst);
-			lst = del_tmino(lst_find_id(head, tmino->id - 1), bitmap, *size);
+			lst = lst_find_id(head, tmino->id - 1);
+			del_tmino(lst, bitmap, *size);
 		}
-		solve(head, lst, bitmap, size);
 	}
 }
 
