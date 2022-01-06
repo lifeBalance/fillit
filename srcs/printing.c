@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 12:32:26 by oabdelfa          #+#    #+#             */
-/*   Updated: 2022/01/04 11:09:35 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/06 16:08:35 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,12 @@ static char	**write_tmino(t_tmino *tmino, char	**charmap, size_t size)
 */
 static char	**write_charmap(t_list *tmino_lst, char	**charmap, size_t size)
 {
+	t_tmino	*tmino;
+
 	while (tmino_lst)
 	{
-		charmap = write_tmino(((t_tmino *)(tmino_lst->content)), charmap, size);
+		tmino = (t_tmino *)(tmino_lst->content);
+		charmap = write_tmino(tmino, charmap, size);
 		tmino_lst = tmino_lst->next;
 	}
 	return (charmap);
