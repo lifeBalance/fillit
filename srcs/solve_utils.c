@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/02 12:46:49 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/06 17:38:51 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	last_pos(t_tmino *tmino, size_t size)
 */
 int	check_right_side(t_tmino *tmino, size_t size)
 {
-	if (((tmino->pos % size) + tmino->width) <= size)
+	if ((tmino->pos % size) <= (size - tmino->width))
 		return (1);
 	return (0);
 }

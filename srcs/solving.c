@@ -6,7 +6,7 @@
 /*   By: rodrodri <rodrodri@student.hive.fi >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 12:54:47 by rodrodri          #+#    #+#             */
-/*   Updated: 2022/01/04 11:20:49 by rodrodri         ###   ########.fr       */
+/*   Updated: 2022/01/06 17:22:34 by rodrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static int	place_tmino(t_tmino *tmino, uint16_t *bitmap, size_t size)
 			bmap_bit = test_bit_pos(bitmap[(tmino->pos / size) + \
 				(tmino_idx / WIDTH_NIBBLE)], (tmino->pos % size) + \
 				(tmino_idx % WIDTH_NIBBLE));
-			if (tmino_bit && bmap_bit)
+			if ((tmino_bit && bmap_bit))
 				break ;
 			tmino_idx++;
 		}
